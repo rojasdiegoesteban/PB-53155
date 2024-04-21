@@ -78,8 +78,13 @@ const updateProduct = async (id, dataProduct) => {
 // Metodo para eliminar un producto
 const deleteProduct = async (id) => {
   await getProducts();
-   // filtro todos los productos que no tengan el id recibido por parámetro
-  products = products.filter( product => product.id !== id);
+  // products = products.filter( product => product.id !== id);
+
+  //Busco el indice del producto que necesito eliminar
+  const index = products.findIndex((product) => product.id === id);
+  // Elimino el producto en el indice especificado
+  products.splice(index, 1);
+
   await fs.promises.writeFile(pathFile, JSON.stringify(products));
 }
 
