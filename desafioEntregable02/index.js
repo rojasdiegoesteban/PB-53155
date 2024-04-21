@@ -1,7 +1,10 @@
+//Agrego modulo fileSystem
 const fs = require("fs");
 
 let products = [];
+// Guardo la ruta del archivo para reutilizar
 let pathFile = "./data/products.json";
+
 
 const addProduct = async (title, description, price, thumbnail, code, stock) => {
   const newProduct = {
@@ -27,16 +30,26 @@ const addProduct = async (title, description, price, thumbnail, code, stock) => 
 
   products.push(newProduct);
 
+  // Guardo la información del array products en el archivo json
   await fs.promises.writeFile(pathFile, JSON.stringify(products));
 };
 
-const getProducts = () => {
-  console.log(products);
+const getProducts = async () => {
+  // leo el contenido del archivo y lo guardo en formato string
+  const productsJson = await fs.promises.readFile(pathFile, "utf8");
+  //convierto el resultado de tipo texto a json para tener acceso a cada posicion del array
+  products = JSON.parse(productsJson) || [];
+
+  // console.log(products);
   return products;
 };
 
-const getProductById = (id) => {
+const getProductById = async (id) => {
+  // cargo el array products con los datos del archivo json
+  await getProducts();
+  //Busco en el array el producto por id
   const product = products.find((product) => product.id === id);
+
   if (!product) {
     console.log(`No se encontró el producto con el id ${id}`);
     return;
@@ -45,6 +58,32 @@ const getProductById = (id) => {
   console.log(product);
   return product;
 };
+
+// Metodo para actualizar un producto
+const updateProduct = async (id, dataProduct) => {
+  await getProducts();
+  // Busco la posicion indice dentro del array products
+  const index = products.findIndex((product) => product.id === id);
+  
+  products[index] = {
+    // Hago una copia del producto
+    ...products[index],
+    // Sobrescribo las propiedades que recibo por parámetro
+    ...dataProduct,
+  };
+  // piso el contenido del arcivo json con la nueva info
+  await fs.promises.writeFile(pathFile, JSON.stringify(products));
+};
+
+// Metodo para eliminar un producto
+const deleteProduct = async (id) => {
+  await getProducts();
+   // filtro todos los productos que no tengan el id recibido por parámetro
+  products = products.filter( product => product.id !== id);
+  await fs.promises.writeFile(pathFile, JSON.stringify(products));
+}
+
+
 
 // Test
 addProduct("Camisa de algodón", "Camisa de algodón de manga larga", 29.99, "https://ejemplo.com/camisa.jpg", "CM001", 50);
@@ -62,3 +101,9 @@ addProduct("Zapatillas deportivas", "Zapatillas deportivas para correr", 49.99, 
 // getProducts();
 
 // getProductById(4);
+
+// updateProduct(2, {"description": "Jeans de corte oversize"});
+// getProductById(2);
+
+// deleteProduct(7);
+
