@@ -1,3 +1,4 @@
+import { error } from "console";
 import fs from "fs";
 
 let products = [];
@@ -45,8 +46,7 @@ const getProductById = async (id) => {
   await getProducts();
   const product = products.find((product) => product.id === id);
   if (!product) {
-    console.log(`No se encontró el producto con el id ${id}`);
-    return;
+    throw Error(`No se encontró el producto con el id ${id}`);
   }
 
   console.log(product);

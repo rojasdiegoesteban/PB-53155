@@ -1,10 +1,17 @@
 import express from "express";
 import productManager from "./productManager.js";
 
+//para crear una aplicacion/servidor de express
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+//para configurar el servidor con determinadas funcionalidades
+app.use(express.json()); //para manejar json
+app.use(express.urlencoded({ extended: true })); //para leer queries y params
+
+//para inicializar el servidor
+app.listen(8080, () => {
+  console.log("Escuchando el servidor en el puerto 8080");
+});
 
 app.get("/products", async (req, res) => {
   try {
@@ -20,15 +27,10 @@ app.get("/products", async (req, res) => {
 app.get("/products/:pid", async (req, res) => {
   try {
     const { pid } = req.params; // Todos los parámetros siempre vienen en formato string
-
     const product = await productManager.getProductById(parseInt(pid));
-
     res.status(200).json(product);
+    
   } catch (error) {
-    console.log(error);
+    res.status(400).json({error: error.message});
   }
-});
-
-app.listen(8080, () => {
-  console.log("Escuchando el servidor en el puerto 8080");
 });

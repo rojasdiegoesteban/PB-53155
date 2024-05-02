@@ -7,6 +7,7 @@ let pathFile = "./data/products.json";
 
 
 const addProduct = async (title, description, price, thumbnail, code, stock) => {
+  await getProductsJson();
   const newProduct = {
     id: products.length + 1,
     title,
@@ -107,13 +108,13 @@ const deleteProduct = async (id) => {
 
 // Test
 // LLamo a getProducts() sin haber cargado ningun producto
-getProducts();
+// getProducts();
 
 // LLamo a getProductById() sin haber cargado ningun producto
 // getProductById(2);
 
 // Agrego productos
-/* addProduct("Camisa de algodón", "Camisa de algodón de manga larga", 29.99, "https://ejemplo.com/camisa.jpg", "CM001", 50);
+addProduct("Camisa de algodón", "Camisa de algodón de manga larga", 29.99, "https://ejemplo.com/camisa.jpg", "CM001", 50);
 addProduct("Pantalones vaqueros", "Pantalones vaqueros de corte clásico", 39.99, "https://ejemplo.com/pantalones.jpg", "PN002", 30);
 addProduct("Zapatillas deportivas", "Zapatillas deportivas para correr", 49.99, "https://ejemplo.com/zapatillas.jpg", "ZP003", 25);
 addProduct("Chaqueta de cuero", "Chaqueta de cuero genuino", 99.99, "https://ejemplo.com/chaqueta.jpg", "CH004", 20);
@@ -121,7 +122,9 @@ addProduct("Bufanda de lana", "Bufanda de lana suave y cálida", 14.99, "https:/
 addProduct("Reloj de pulsera", "Reloj de pulsera con correa de cuero", 79.99, "https://ejemplo.com/reloj.jpg", "RL007", 15);
 addProduct("Mochila resistente", "Mochila resistente al agua con múltiples compartimentos", 59.99, "https://ejemplo.com/mochila.jpg", "MC008", 10);
 addProduct("Gafas de sol", "Gafas de sol polarizadas con montura de metal", 34.99, "https://ejemplo.com/gafas.jpg", "GS009", 20);
-addProduct("Zapatillas deportivas", "Zapatillas deportivas para correr", 49.99, "https://ejemplo.com/zapatillas.jpg", "ZP003", 25); */
+addProduct("Zapatillas urbanas", "Zapatillas para todo tipo de evento", 49.99, "https://ejemplo.com/urbanas.jpg", "ZU043", 25);
+addProduct("Campera de cuero", "Campera de cuero", 67.00, "https://ejemplo.com/campera.jpg", "CC004", 22);
+addProduct("Cinturon", "Cinto de cuero con tachas", 12.99, "https://ejemplo.com/cinturon.jpg", "CC076", 15);
 
 // LLamo a getProducts() luego de haber cargado productos
 // getProducts();
