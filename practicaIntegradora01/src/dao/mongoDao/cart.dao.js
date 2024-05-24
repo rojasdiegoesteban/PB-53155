@@ -20,12 +20,12 @@ const addProductToCart = async (cid, pid) => {
   await cartModel.findByIdAndUpdate(cid, { $push: {products: product} });
 
   const cart = await cartModel.findById(cid);
+  
   if(!cart) return {
     cart: false
   }
 
   return cart;
-  
 }
 
 export default {
