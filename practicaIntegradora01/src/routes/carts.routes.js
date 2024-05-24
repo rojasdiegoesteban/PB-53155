@@ -5,7 +5,7 @@ const router = Router();
 
 router.post("/", async (req, res) => {
     try {
-        const cart = cartDao.create();
+        const cart = await cartDao.create();
         res.status(201).json({status: "success", payload: cart});
         
     } catch (error) {
