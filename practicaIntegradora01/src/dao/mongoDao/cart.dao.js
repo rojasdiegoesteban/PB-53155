@@ -20,12 +20,19 @@ const addProductToCart = async (cid, pid) => {
   await cartModel.findByIdAndUpdate(cid, { $push: {products: product} });
 
   const cart = await cartModel.findById(cid);
+<<<<<<< HEAD
+=======
+  
+>>>>>>> practica_integradora_01
   if(!cart) return {
     cart: false
   }
 
   return cart;
+<<<<<<< HEAD
   
+=======
+>>>>>>> practica_integradora_01
 }
 
 export default {

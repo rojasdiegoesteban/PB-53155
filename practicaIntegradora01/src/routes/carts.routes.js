@@ -5,7 +5,7 @@ const router = Router();
 
 router.post("/", async (req, res) => {
     try {
-        const cart = cartDao.create();
+        const cart = await cartDao.create();
         res.status(201).json({status: "success", payload: cart});
         
     } catch (error) {
@@ -17,7 +17,7 @@ router.post("/", async (req, res) => {
 router.post("/:cid/product/:pid", async (req, res) => {
     try {
         const {cid, pid} = req.params;
-        const cart = cartDao.addProductToCart(cid, pid);
+        const cart = await cartDao.addProductToCart(cid, pid);
 
         if(cart.product == false) return res.status(404).json({status: "Error", msg: `No se encontró el producto con id ${pid}`});
         if(cart.cart == false) return res.status(404).json({status: "Error", msg: `No se encontró el carrito con id ${cid}`});
