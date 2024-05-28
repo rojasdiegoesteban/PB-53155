@@ -1,5 +1,9 @@
 import express from "express";
 import router from "./routes/index.js";
+import { connectMongoDB } from "./config/mongoDb.config.js";
+
+connectMongoDB();
+
 
 //para crear una aplicacion/servidor de express
 const app = express();
