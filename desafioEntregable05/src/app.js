@@ -3,6 +3,8 @@ import router from "./routes/index.js";
 import { connectMongoDB } from "./config/mongoDb.config.js";
 import session from "express-session";
 import mongoStore from "connect-mongo";
+import passport from "passport";
+import initializePassport from "./config/passport.config.js";
 
 connectMongoDB();
 
@@ -19,8 +21,14 @@ app.use(session({
     ttl: 15
   }),
   secret: "secretCode",
-  resave: true
+  resave: true,
+  saveUninitialized: true
 })) //manejo de sesiones
+
+// para generar las estrategias de autenticación y autorización
+app.use(passport.initialize());
+app.use(passport.session());
+initializePassport();
 
 //configuro ruta raiz
 app.use("/api", router);

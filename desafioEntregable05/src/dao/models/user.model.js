@@ -3,9 +3,12 @@ import mongoose from "mongoose";
 const userCollection = "user";
 
 const userSchema = new mongoose.Schema({
-    fist_name: String,
+    first_name: String,
     last_name: String,
-    email: String,
+    email: {
+        type: String,
+        unique: true,
+    },
     password: String,
     age: Number
 });
