@@ -91,11 +91,11 @@ const deleteProduct = async (req, res) => {
 const createProductsMocks = async (req, res) => {
     try {
         // const newProducts = generateProductsMocks();
-        const msj = "EStoy aca perra";
+        const msj = "EStoy aqui";
         res.status(200).json({ status: "ok", msj });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ status: "Error", msg: "Error enterrado del servidor" });
+        res.status(400).json({ status: "Error", msg: "no funciona" });
     }
 };
 
