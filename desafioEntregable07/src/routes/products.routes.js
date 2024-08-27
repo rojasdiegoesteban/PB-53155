@@ -1,6 +1,7 @@
 import { Router } from "express";
 import productsController from "../controllers/product.controller.js";
 import { authorization, passportCall } from "../middlewares/passport.middleware.js";
+import { generateProductsMocks } from "../mocks/product.mock.js";
 
 const router = Router();
 
@@ -18,6 +19,9 @@ router.put("/:pid", passportCall("jwt"), authorization("admin"), productsControl
 
 // elimina un producto
 router.delete("/:pid", passportCall("jwt"), authorization("admin"), productsController.deleteProduct);
+
+// mockingproducts
+router.get("/mockingproducts", productsController.createProductsMocks);
 
 
 export default router;

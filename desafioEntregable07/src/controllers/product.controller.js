@@ -87,11 +87,24 @@ const deleteProduct = async (req, res) => {
     }
 };
 
+// create mocks products
+const createProductsMocks = async (req, res) => {
+    try {
+        // const newProducts = generateProductsMocks();
+        const msj = "EStoy aca perra";
+        res.status(200).json({ status: "ok", msj });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ status: "Error", msg: "Error enterrado del servidor" });
+    }
+};
+
 
 export default {
     getAllProducts,
     getProductById,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    createProductsMocks
 };

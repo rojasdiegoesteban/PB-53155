@@ -1,5 +1,5 @@
 import productsRepository from "../persistences/mongo/repositories/product.repository.js";
-import { productResponseDto } from "../dto/product-response.dto.js"
+import { productResponseDto } from "../dto/product-response.dto.js";
 
 const getAll = async (query, options) => {
     return await productsRepository.getAll(query, options);
@@ -29,5 +29,5 @@ export default {
     getById,
     update,
     deleteOne,
-    create
+    create,
   }
