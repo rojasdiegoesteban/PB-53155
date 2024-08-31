@@ -1,12 +1,17 @@
 import productsRepository from "../persistences/mongo/repositories/product.repository.js";
 import { productResponseDto } from "../dto/product-response.dto.js";
+import { generateProductsMocks } from "../mocks/product.mock.js";
+import error from  "../errors/customErrors.js";
 
 const getAll = async (query, options) => {
-    return await productsRepository.getAll(query, options);
+    const products = await productsRepository.getAll(query, options);
+    if (!products) throw error.notFoundError("No se encontraron productos");
+    return products;
 };
 
 const getById = async (id) => {
     const productData = await productsRepository.getById(id);
+    if (!productData) throw error.notFoundError(`Producto con id ${id} no encontrado`);
     const product = productResponseDto(productData);
     return product;
 };
@@ -16,12 +21,20 @@ const create = async (data) => {
 };
 
 const update = async (id, data) => {
-    return await productsRepository.update(id, data);
+    const product = await productsRepository.update(id, data);
+    if (!product) throw error.notFoundError(`Producto con id ${id} no encontrado`);
+    return product;
 };
 
 const deleteOne = async (id) => {
-    return await productsRepository.deleteOne(id);
+    const product = await productsRepository.deleteOne(id);
+    if (!product) throw error.notFoundError(`Producto con id ${id} no encontrado`);
+    return product;
 };
+
+const createMocks = () => {
+    return generateProductsMocks(5);
+}
 
 
 export default {
@@ -30,4 +43,5 @@ export default {
     update,
     deleteOne,
     create,
+    createMocks
   }

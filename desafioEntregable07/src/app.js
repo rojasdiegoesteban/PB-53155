@@ -7,6 +7,7 @@ import passport from "passport";
 import initializePassport from "./config/passport.config.js";
 import cookieParser from "cookie-parser";
 import env from "./config/env.config.js";
+import { errorHandle } from "./errors/errorHandle.js";
 
 connectMongoDB();
 
@@ -35,6 +36,9 @@ initializePassport();
 
 //configuro ruta raiz
 app.use("/api", router);
+
+// manejo de errores
+app.use(errorHandle);
 
 //para inicializar el servidor
 app.listen(env.PORT, () => {

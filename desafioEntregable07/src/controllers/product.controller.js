@@ -1,7 +1,7 @@
 import productsService from "../services/product.service.js";
 
 // get all products
-const getAllProducts = async (req, res) => {
+const getAllProducts = async (req, res, next) => {
     try {
         const { limit, page, sort, category, status } = req.query;
         const options = {
@@ -27,26 +27,24 @@ const getAllProducts = async (req, res) => {
         res.status(200).json({ status: "success", payload: products });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ status: "Error", msg: "Error interno del servidor" });
+        next(error);
     }
 };
 
 // get product by id
-const getProductById = async (req, res) => {
+const getProductById = async (req, res, next) => {
     try {
         const { pid } = req.params; // Todos los parámetros siempre vienen en formato string
         const product = await productsService.getById(pid);
-        if (!product) res.status(404).json({ status: "Error", msg: `Producto con id ${pid} no encontrado` })
-
         res.status(200).json({ status: "success", payload: product });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ status: "Error", msg: "Error interno del servidor" });
+        next(error);
     }
 };
 
 // create product
-const createProduct = async (req, res) => {
+const createProduct = async (req, res, next) => {
     try {
         const product = req.body;
         const newProduct = await productsService.create(product);
@@ -54,48 +52,45 @@ const createProduct = async (req, res) => {
         res.status(201).json({ status: "success", payload: newProduct });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ status: "Error", msg: "Error interno del servidor" });
+        next(error);
     }
 };
 
 // update product
-const updateProduct = async (req, res) => {
+const updateProduct = async (req, res, next) => {
     try {
         const { pid } = req.params;
         const productData = req.body;
         const updProduct = await productsService.update(pid, productData);
-        if (!updProduct) res.status(404).json({ status: "Error", msg: `Producto con id ${pid} no encontrado` })
 
         res.status(201).json({ status: "success", payload: updProduct });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ status: "Error", msg: "Error interno del servidor" });
+        next(error);
     }
 };
 
 // delete product
-const deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res, next) => {
     try {
         const { pid } = req.params;
         const product = await productsService.deleteOne(pid);
-        if (!product) res.status(404).json({ status: "Error", msg: `Producto con id ${pid} no encontrado` })
 
-        res.status(200).json({ status: "success", payload: "producto eliminado" });
+        res.status(200).json({ status: "success", payload: `El producto con id ${pid} fue eliminado` });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ status: "Error", msg: "Error interno del servidor" });
+        next(error);
     }
 };
 
 // create mocks products
-const createProductsMocks = async (req, res) => {
+const createProductsMocks = async (req, res, next) => {
     try {
-        // const newProducts = generateProductsMocks();
-        const msj = "EStoy aqui";
-        res.status(200).json({ status: "ok", msj });
+        const newProducts = productsService.createMocks();
+        res.status(200).json({ status: "success", payload: newProducts });
     } catch (error) {
         console.error(error);
-        res.status(400).json({ status: "Error", msg: "no funciona" });
+        next(error);
     }
 };
 

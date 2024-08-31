@@ -34,13 +34,34 @@ const addProductToCart = async (cid, pid) => {
 };
 
 const deleteProductInCart = async (cid, pid) => {
-  const cart = await cartModel.findOneAndUpdate(
-    { _id: cid, "products.product": pid },
-    { $inc: { "products.$.quantity": -1 } },
-    { new: true }
-  );
 
-  return cart;
+  const cart = await cartModel.findById(cid);
+  const productsInCart = cart.products;
+
+  //busco el producto por el id
+  const product = productsInCart.find(p => p.product.toString() === pid);
+
+  if(!product) return null;
+
+  //verifico si la cantidad es mayor a 1
+  if (product.quantity > 1) {
+
+    return await cartModel.findOneAndUpdate(
+      { _id: cid, "products.product": pid },
+      { $inc: { "products.$.quantity": -1 } },
+      { new: true }
+    );
+
+    // elimino el objeto del array
+  } else {
+
+    return await cartModel.findOneAndUpdate(
+      { _id: cid, "products.product": pid },
+      { $pull: { products: { product: pid } } },
+      { new: true }
+    );
+  }
+
 };
 
 const updateQuantityProductInCart = async (cid, pid, quantity) => {

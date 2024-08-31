@@ -3,7 +3,7 @@ import ticketRepository from "../persistences/mongo/repositories/ticket.reposito
 const createTicket = async (userEmail, totalCart) => {
   const newTicket = {
     amount: totalCart,
-    purchaser: userEmail,
+    purchase_user: userEmail,
     code: Math.random().toString(36).substr(2, 9),
   };
 
