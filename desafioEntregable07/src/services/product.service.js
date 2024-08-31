@@ -33,7 +33,7 @@ const deleteOne = async (id) => {
 };
 
 const createMocks = () => {
-    return generateProductsMocks(5);
+    return generateProductsMocks(50);
 }
 
 
